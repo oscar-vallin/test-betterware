@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { NavbarSection } from '../layout';
-import { Home } from '../pages/index';
+import { Home, ShoppingCart } from '../pages/index';
 
 export const RouteController = () => {
   return (
@@ -8,6 +8,7 @@ export const RouteController = () => {
     <NavbarSection />
     <Routes>
       <Route path='/' element={<Home />}/>
+      <Route path='/shoppingcart' element={<ShoppingCart />}/>
     </Routes>
   </Router>
   )

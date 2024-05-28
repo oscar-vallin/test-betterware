@@ -1,24 +1,64 @@
 import * as React from 'react';
-import { Container, Row, Col, Card, Button } from "react-bootstrap"
-import { CardStyled } from './home.styles';
+import { Container, Row, Col, Card, Button, Alert, Spinner } from "react-bootstrap"
+import { CardStyled, SpinnerContainer } from './home.styles';
 import { FaShoppingCart } from 'react-icons/fa';
+import { CustomModal } from '../../components';
+// import redux
+import { useDispatch, useSelector } from 'react-redux';
+import { AppState, CartProduct } from '../../redux/types/state';
 
-type ProductProps = {
-  name: string;
-  price: string;
-  description: string;
-};
+//get products
+import { listOfProducts } from '../../data/products';
+import { addProductToCartList } from '../../redux/actions/cartProductAction';
 
 export const Home = () => {
-  const [products, setProducts] = React.useState<ProductProps[]>([]);
+  const dispatch = useDispatch();
+  const { cartProducts, loading, error, success } = useSelector((state: AppState) => state.cartProduct);
+  
+  const [products, setProducts] = React.useState<CartProduct[]>([]);
+  const [showModal, setShowModal] = React.useState(false);
+  const [modalDesc, setModalDesc] = React.useState('');
+  const [showErrorMsg, setShowErrorMsg] = React.useState('');
+
+  const addNewProductToCart = (data: CartProduct) => {
+
+    const currentProduct = cartProducts.find((cp) => cp.name === data.name);
+
+    if (currentProduct) {
+      setModalDesc('This product i already exist in cart shopping');
+      setShowModal(true);
+    } else {
+      dispatch(addProductToCartList(data));
+    }
+  };
+
+  const closeModal = () => setShowModal(false);
+
+  React.useEffect(() => {
+    setProducts(listOfProducts);
+  },[]);
+
+  React.useEffect(() => {
+    if (success) {
+      setModalDesc('The product has been added successfully');
+      setShowModal(true);
+    }
+    if (error) {
+      setShowErrorMsg('There was an error to add the product');
+    }
+  }, [loading, error, success])
   const renderProducts = () => {
     if (products.length) {
       return (
         <Row>
           {products.map((product, indexProduct) => (
-            <Col  md="12" lg="6" key={indexProduct}>
+            <Col sm="12" md="6" lg="4" key={indexProduct}>
               <CardStyled>
-                {/* <img /> */}
+                <img 
+                  className="d-block w-100"
+                  src={product.img}
+                  alt="First slide"
+                /> 
                 <Card.Body>
                   <Card.Title>
                     {product.name} 
@@ -29,11 +69,18 @@ export const Home = () => {
               </Card.Text>
                 </Card.Body>
                 <Button
-                  style={{ margin: '0 auto', marginBottom: '20px', fontWeight: '400' }}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    margin: '0 auto',
+                    marginBottom: '20px',
+                    fontWeight: '400'
+                  }}
                   variant="info"
+                  onClick={() => addNewProductToCart(product)}
                 >
-                  Agregar al carrito
-                  <FaShoppingCart style={{ marginRight: '5px' }} /> 
+                  Add to Shopping Cart
+                  <FaShoppingCart style={{ marginLeft: '5px' }} /> 
                 </Button>
               </CardStyled>
             </Col>
@@ -44,10 +91,18 @@ export const Home = () => {
     return null;
   }
   return (
-    <Container>
-      <Row>
-        {renderProducts()}
-      </Row>
+    <Container >
+      {loading && <SpinnerContainer>
+        <Spinner animation="border" role="status">
+          </Spinner>
+        </SpinnerContainer>}
+      {showErrorMsg && <Alert variant="danger">{error}</Alert>}
+      {renderProducts()}
+      <CustomModal 
+        isVisible={showModal}
+        onClose={closeModal}
+        text={modalDesc}
+      />
     </Container>
   )
 }
