@@ -4,15 +4,14 @@ import { Link } from 'react-router-dom';
 
 type NavBarLinkProps = {
   id: string;
-  text?: string;
-  icon?: string;
+  total?: number;
   path: string;
   children?: React.ReactNode;
 };
 
 
 
-export const NavbarLink = ({ id, text, path, children, icon }: NavBarLinkProps) => {
+export const NavbarLink = ({ id, total, path, children }: NavBarLinkProps) => {
   return (
     <Nav.Link
       className='navlink'
@@ -21,9 +20,8 @@ export const NavbarLink = ({ id, text, path, children, icon }: NavBarLinkProps) 
       style={{ fontFamily: 'Poppins,sans-serif' }}
       id={id}
     >
-      {text}
-      {icon}
       {children}
+      {total}
     </Nav.Link>
   )
 };
