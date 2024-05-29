@@ -38,7 +38,7 @@ export const Home = () => {
     if (error) {
       setShowErrorMsg('There was an error to add the product');
     }
-  }, [loading, error, success])
+  }, [loading, error, success]);
   const renderProducts = () => {
     if (products.length) {
       return (
@@ -56,8 +56,8 @@ export const Home = () => {
                     {product.name} 
                   </Card.Title>
                   <Card.Text>
-                <p>{product.description}</p>
-                <p>{product.price}</p>
+                <span>{product.description}</span>
+                <span>{product.price}</span>
               </Card.Text>
                 </Card.Body>
                 <Button
