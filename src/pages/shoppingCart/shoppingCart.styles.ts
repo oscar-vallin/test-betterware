@@ -10,6 +10,13 @@ export const CartContainer = styled.div`
 export const ListItemContainer = styled.div`
   display: flex;
   align-items: center;
+
+  h5 {
+    margin: 0;
+  }
+  p {
+    margin: 0;
+  }
 `;
 
 export const ImageContainer = styled.div`
@@ -19,20 +26,4 @@ export const ImageContainer = styled.div`
 
 export const ProductDetails = styled.div`
   flex: 2;
-`;
-
-export const ProductName = styled.h5`
-  margin: 0;
-`;
-
-export const ProductDescription = styled.p`
-  margin: 0;
-`;
-
-export const ProductPrice = styled.p`
-  margin: 0;
-`;
-
-export const ProductQuantity = styled.p`
-  margin: 0;
 `;

@@ -14,6 +14,13 @@ import { addProductToCartList } from '../../redux/actions/cartProductAction';
 export const Home = () => {
   const dispatch = useDispatch();
   const { loading, error, success } = useSelector((state: AppState) => state.cartProduct);
+  const stylesButton: React.CSSProperties = {
+    display: 'flex',
+    alignItems: 'center',
+    margin: '0 auto',
+    marginBottom: '20px',
+    fontWeight: '400'
+  };
   
   const [products, setProducts] = React.useState<CartProduct[]>([]);
   const [showModal, setShowModal] = React.useState(false);
@@ -38,15 +45,16 @@ export const Home = () => {
     if (error) {
       setShowErrorMsg('There was an error to add the product');
     }
-  }, [loading, error, success]);
+  }, [error, success]);
   const renderProducts = () => {
     if (products.length) {
       return (
         <Row>
           {products.map((product, indexProduct) => (
             <Col sm="12" md="6" lg="4" key={indexProduct}>
-              <CardStyled>
+              <CardStyled id='__CardProduct'>
                 <img 
+                  id='__ImgProduct'
                   className="d-block w-100"
                   src={product.img}
                   alt="First slide"
@@ -61,13 +69,7 @@ export const Home = () => {
               </Card.Text>
                 </Card.Body>
                 <Button
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    margin: '0 auto',
-                    marginBottom: '20px',
-                    fontWeight: '400'
-                  }}
+                  style={stylesButton}
                   variant="info"
                   onClick={() => addNewProductToCart(product)}
                 >

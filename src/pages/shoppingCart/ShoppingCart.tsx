@@ -7,10 +7,7 @@ import {
   CartContainer,
   ImageContainer,
   ListItemContainer,
-  ProductDescription,
   ProductDetails,
-  ProductName,
-  ProductPrice,
 } from './shoppingCart.styles';
 
 export const ShoppingCart: React.FC = () => {
@@ -46,17 +43,22 @@ export const ShoppingCart: React.FC = () => {
 
   const renderProducts = () => {
     return (
-      <ListGroup>
+      <ListGroup id='__ListShoppingCart'>
         {products.map((product: CartProduct) => (
           <ListGroup.Item key={product.id}>
             <ListItemContainer>
               <ImageContainer>
-                <Image src={product.img} alt={product.name} thumbnail />
+                <Image
+                  id='__ImgShoppingCart'
+                  src={product.img}
+                  alt={product.name}
+                  thumbnail 
+                />
               </ImageContainer>
-              <ProductDetails>
-                <ProductName>{product.name}</ProductName>
-                <ProductDescription>{product.description}</ProductDescription>
-                <ProductPrice>${product.price}</ProductPrice>
+              <ProductDetails id='__ProductDetails'>
+                <h5>{product.name}</h5>
+                <p>{product.description}</p>
+                <p>${product.price}</p>
                 <span>{productQuantity[product['name']]}</span>
               </ProductDetails>
               <Button variant="danger" onClick={() => handleRemoveFromCart(product.id ?? '')}>
@@ -80,7 +82,7 @@ export const ShoppingCart: React.FC = () => {
     } else {
       setProducts([]);
     }
-  }, [cartProducts])
+  }, [cartProducts]);
   return (
     <CartContainer>
       <h2>Shopping Cart</h2>

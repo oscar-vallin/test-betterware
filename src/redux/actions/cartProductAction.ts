@@ -37,7 +37,7 @@ const fetchProductsFailure = (error: string): CartProductActionTypes => ({
 });
 
 
-export const addProductToCartList = (product: CartProduct): any=> {
+export const addProductToCartList = (product: CartProduct): any => {
   return async (dispatch: any) => {
     dispatch(fetchProductsRequest());
     try {

@@ -45,11 +45,11 @@ export const NavbarSection = () => {
         </Navbar.Brand>
           <Nav>
           <NavbarLink 
-              id="__ShoppingCart"
-              total={totalProducts}
-              path="shoppingcart"
+            id="__ShoppingCart"
+            total={totalProducts}
+            path="shoppingcart"
           >
-              <FaShoppingCart style={{ marginRight: '5px' }} /> 
+            <FaShoppingCart style={{ marginRight: '5px' }} /> 
           </NavbarLink>
           </Nav>
       </Container>

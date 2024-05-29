@@ -14,11 +14,11 @@ type NavBarLinkProps = {
 export const NavbarLink = ({ id, total, path, children }: NavBarLinkProps) => {
   return (
     <Nav.Link
+      id={id}
       className='navlink'
       as={Link}
       to={`/${path}`} 
       style={{ fontFamily: 'Poppins,sans-serif' }}
-      id={id}
     >
       {children}
       {total}
