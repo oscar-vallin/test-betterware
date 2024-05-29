@@ -13,7 +13,7 @@ import { addProductToCartList } from '../../redux/actions/cartProductAction';
 
 export const Home = () => {
   const dispatch = useDispatch();
-  const { cartProducts, loading, error, success } = useSelector((state: AppState) => state.cartProduct);
+  const { loading, error, success } = useSelector((state: AppState) => state.cartProduct);
   
   const [products, setProducts] = React.useState<CartProduct[]>([]);
   const [showModal, setShowModal] = React.useState(false);
@@ -21,15 +21,7 @@ export const Home = () => {
   const [showErrorMsg, setShowErrorMsg] = React.useState('');
 
   const addNewProductToCart = (data: CartProduct) => {
-
-    const currentProduct = cartProducts.find((cp) => cp.name === data.name);
-
-    if (currentProduct) {
-      setModalDesc('This product i already exist in cart shopping');
-      setShowModal(true);
-    } else {
-      dispatch(addProductToCartList(data));
-    }
+    dispatch(addProductToCartList(data));
   };
 
   const closeModal = () => setShowModal(false);
