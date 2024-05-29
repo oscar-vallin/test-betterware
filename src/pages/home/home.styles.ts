@@ -24,3 +24,8 @@ export const SpinnerContainer = styled.div`
   align-items: center;
   height: 100px;
 `;
+
+export const TextContainer = styled(Card.Text)`
+  display: flex;
+  flex-direction: column;
+`;

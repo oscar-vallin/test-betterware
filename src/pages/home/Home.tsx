@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Container, Row, Col, Card, Button, Alert, Spinner } from "react-bootstrap"
-import { CardStyled, SpinnerContainer } from './home.styles';
+import { CardStyled, SpinnerContainer, TextContainer } from './home.styles';
 import { FaShoppingCart } from 'react-icons/fa';
 import { CustomModal } from '../../components';
 // import redux
@@ -63,10 +63,10 @@ export const Home = () => {
                   <Card.Title>
                     {product.name} 
                   </Card.Title>
-                  <Card.Text>
-                <span>{product.description}</span>
-                <span>{product.price}</span>
-              </Card.Text>
+                  <TextContainer>
+                    <span>{product.description}</span>
+                    <span>{product.price}</span>
+                  </TextContainer>
                 </Card.Body>
                 <Button
                   style={stylesButton}
