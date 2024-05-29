@@ -10,8 +10,12 @@ This project is a shopping cart application built with React based on Typescript
 
 ## Requirements
 
-- Node.js
-- npm or yarn
+- Node.js:
+  - Minimum version: Node.js 14.x.x
+  - Recommended version: Node.js 16.x.x or higher
+- npm:
+  - Minimum version: npm 6.x.x
+  - Recommended version: npm 7.x.x or higher
 
 
 ## Aditional
