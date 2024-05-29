@@ -17,10 +17,57 @@ export const ShoppingCart: React.FC = () => {
   const dispatch = useDispatch();
   const { cartProducts } = useSelector((state: AppState) => state.cartProduct);
   const [products, setProducts] = React.useState<CartProduct[]>([]);
+  const [productQuantity, setProductQuantity] = React.useState<any>();
+
+  const removeDuplicates = (products: CartProduct[]) => {
+    const uniqueArray = [];
+    const seen = new Set();
+    const obj: any = {};
+
+    for (let product of products) {
+      if (!seen.has(product.name)) {
+        uniqueArray.push(product);
+        seen.add(product.name);
+      }
+
+      if (obj[product['name']]) {
+        obj[product['name']] += 1;
+      } else {
+        obj[product['name']] = 1;
+      }
+    }
+    setProductQuantity(obj);
+    return uniqueArray;
+  };
 
   const handleRemoveFromCart = (producId: string) => {
     dispatch(removeProductToCartList(producId));
-  }
+  };
+
+  const renderProducts = () => {
+    return (
+      <ListGroup>
+        {products.map((product: CartProduct) => (
+          <ListGroup.Item key={product.id}>
+            <ListItemContainer>
+              <ImageContainer>
+                <Image src={product.img} alt={product.name} thumbnail />
+              </ImageContainer>
+              <ProductDetails>
+                <ProductName>{product.name}</ProductName>
+                <ProductDescription>{product.description}</ProductDescription>
+                <ProductPrice>${product.price}</ProductPrice>
+                <span>{productQuantity[product['name']]}</span>
+              </ProductDetails>
+              <Button variant="danger" onClick={() => handleRemoveFromCart(product.id ?? '')}>
+                Remove
+              </Button>
+            </ListItemContainer>
+          </ListGroup.Item>
+        ))}
+      </ListGroup>
+    )
+  } 
 
   React.useEffect(() => {
     dispatch(fetchProducts());
@@ -28,7 +75,8 @@ export const ShoppingCart: React.FC = () => {
 
   React.useEffect(() => {
     if (cartProducts.length) {
-      setProducts(cartProducts);
+      const values = removeDuplicates(cartProducts);
+      setProducts(values);
     } else {
       setProducts([]);
     }
@@ -39,25 +87,7 @@ export const ShoppingCart: React.FC = () => {
       {products.length === 0 ? (
         <p>Your cart is empty</p>
       ) : (
-        <ListGroup>
-          {products.map((product: CartProduct) => (
-            <ListGroup.Item key={product.id}>
-              <ListItemContainer>
-                <ImageContainer>
-                  <Image src={product.img} alt={product.name} thumbnail />
-                </ImageContainer>
-                <ProductDetails>
-                  <ProductName>{product.name}</ProductName>
-                  <ProductDescription>{product.description}</ProductDescription>
-                  <ProductPrice>${product.price}</ProductPrice>
-                </ProductDetails>
-                <Button variant="danger" onClick={() => handleRemoveFromCart(product.id ?? '')}>
-                  Remove
-                </Button>
-              </ListItemContainer>
-            </ListGroup.Item>
-          ))}
-        </ListGroup>
+        renderProducts()
       )}
     </CartContainer>
   );
