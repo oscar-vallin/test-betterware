@@ -21,7 +21,7 @@ export const ShoppingCart: React.FC = () => {
     const seen = new Set();
     const obj: any = {};
 
-    for (let product of products) {
+    for (const product of products) {
       if (!seen.has(product.name)) {
         uniqueArray.push(product);
         seen.add(product.name);

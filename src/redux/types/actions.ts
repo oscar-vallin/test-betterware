@@ -10,22 +10,22 @@ export const ADD_PRODUCT_SUCCESS = 'ADD_PRODUCT_SUCCESS';
 
 export interface FetchProductsRequestAction {
   type: typeof FETCH_PRODUCTS_REQUEST;
-};
+}
 
 export interface FetchProductsSuccessAction {
   type: typeof FETCH_PRODUCTS_SUCCESS;
   payload: CartProduct[];
-};
+}
 
 export interface AddProductSuccessAction {
   type: typeof ADD_PRODUCT_SUCCESS;
   payload: CartProduct[];
-};
+}
 
 export interface FetchProductsFailureAction {
   type: typeof FETCH_PRODUCTS_FAILURE;
   payload: string;
-};
+}
 
 export type CartProductActionTypes = 
   | FetchProductsRequestAction 
