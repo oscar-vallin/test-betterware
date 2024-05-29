@@ -1,7 +1,10 @@
-import { collection, addDoc, getDocs, deleteDoc, doc } from 'firebase/firestore';
+import {
+  collection,
+  addDoc,
+  deleteDoc,
+  doc
+} from 'firebase/firestore';
 import { firestore } from '../../firebase/firebase';
-// import { db } from '../../firebase';
-// import { ThunkAction } from 'redux-thunk';
 import { CartProduct } from '../types/state';
 import {
   CartProductActionTypes,
@@ -10,6 +13,7 @@ import {
   FETCH_PRODUCTS_FAILURE,
   ADD_PRODUCT_SUCCESS,
 } from '../types/actions';
+import { shoppingCartProducts } from '../../firebase/getData';
 
 // Action creators
 const fetchProductsRequest = (): CartProductActionTypes => ({
@@ -33,7 +37,7 @@ const fetchProductsFailure = (error: string): CartProductActionTypes => ({
 });
 
 
-export const addProductToCartList = (product: CartProduct): any => {
+export const addProductToCartList = (product: CartProduct): any=> {
   return async (dispatch: any) => {
     dispatch(fetchProductsRequest());
     try {
@@ -46,14 +50,9 @@ export const addProductToCartList = (product: CartProduct): any => {
       
       await addDoc(collection(firestore, `shoppingCart/`), newProduct);
 
-      const carsCollectionRef = collection(firestore, 'shoppingCart');
-      const querySnapshot = await getDocs(carsCollectionRef);
-      const productsFromCart = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      })) as CartProduct[];
+      const products = await shoppingCartProducts();
 
-      dispatch(addProducSuccess(productsFromCart))
+      dispatch(addProducSuccess(products));
     } catch (error: any) {
       console.log("err", error)
       dispatch(fetchProductsFailure(error.message));
@@ -68,13 +67,7 @@ export const removeProductToCartList = (productId: string): any => {
       const carDocRef = doc(firestore, 'shoppingCart', productId);
       await deleteDoc(carDocRef);
 
-      const carsCollectionRef = collection(firestore, 'shoppingCart');
-      const querySnapshot = await getDocs(carsCollectionRef);
-      const products = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      })) as CartProduct[];
-      console.log(products);
+      const products = await shoppingCartProducts();
       dispatch(fetchProductsSuccess(products));
     } catch (error: any) {
       console.log("err", error)
@@ -83,19 +76,11 @@ export const removeProductToCartList = (productId: string): any => {
   };
 };
 
-
-
 export const fetchProducts = ():any => {
   return async (dispatch: any) => {
     dispatch(fetchProductsRequest());
     try {
-      const carsCollectionRef = collection(firestore, 'shoppingCart');
-      const querySnapshot = await getDocs(carsCollectionRef);
-      const products = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      })) as CartProduct[];
-      console.log(products);
+      const products = await shoppingCartProducts();
       dispatch(fetchProductsSuccess(products));
     } catch (error: any) {
       dispatch(fetchProductsFailure(error.message));
