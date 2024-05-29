@@ -13,6 +13,11 @@ This project is a shopping cart application built with React based on Typescript
 - Node.js
 - npm or yarn
 
+
+## Aditional
+
+The Firebase credentials were reused from a personal project to create a more user-friendly interaction.
+
 ## Installation
 
 1. Clone this repository:
